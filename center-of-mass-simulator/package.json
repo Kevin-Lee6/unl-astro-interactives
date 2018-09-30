@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jybeh/unl-astro-interactives"
+    "url": "git+https://github.com/ccnmtl/astro-interactives.git"
   },
   "keywords": [
     "astronomy"
@@ -22,9 +22,9 @@
   "author": "Jia Yeh Beh",
   "license": "GPL-3.0+",
   "bugs": {
-    "url": "https://github.com/jybeh/unl-astro-interactives"
+    "url": "https://github.com/ccnmtl/astro-interactives/issues"
   },
-  "homepage": "https://github.com/jybeh/unl-astro-interactives#readme",
+  "homepage": "https://github.com/ccnmtl/astro-interactives#readme",
   "dependencies": {
     "@babel/cli": "^7.0.0",
     "pixi.js": "^4.8.1",
