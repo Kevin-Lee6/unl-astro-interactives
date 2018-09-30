@@ -7,8 +7,6 @@ export default class MainView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canvasHeight: 0,
-      canvasWidth: 0,
       totalMass: 0,
       objectY: 0,
       objectOnePosition: 0,
@@ -20,14 +18,15 @@ export default class MainView extends React.Component {
       objectTwoRadius:
         (this.props.objectOneMass /
           (this.props.objectTwoMass + this.props.objectOneMass)) *
-        this.props.separation
+        this.props.separation,
+      separation: this.props.separation
     };
 
     this.resources = {};
 
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
-    this.updateCircle = this.updateCircle.bind(this);
+    this.update = this.update.bind(this);
   }
   // react/PIXI integration from:
   // https://www.protectator.ch/post/pixijs-v4-in-a-react-component
@@ -41,6 +40,7 @@ export default class MainView extends React.Component {
     );
   }
   componentDidMount() {
+    //Create canvas to display
     this.app = new PIXI.Application({
       width: 600,
       height: 400,
@@ -49,15 +49,9 @@ export default class MainView extends React.Component {
       sharedTicker: true
     });
 
-    this.setState({
-      canvasHeight: this.app.screen.height,
-      canvasWidth: this.app.screen.width
-    });
-
     this.el.appendChild(this.app.view);
 
-    this.drawGrid();
-
+    //Add all the images to loader
     this.app.loader
       .add("center", "img/center.svg")
       .add("circle", "img/circle.svg")
@@ -69,6 +63,8 @@ export default class MainView extends React.Component {
     const me = this;
     this.app.loader.load((loader, resources) => {
       me.resources = resources;
+      me.gridContainer = me.drawGridContainer();
+      me.grid = me.drawGrid(this.gridContainer, this.props.separation);
       me.objectContainerOne = me.drawObject(
         resources.circle,
         resources.massOneText,
@@ -103,19 +99,23 @@ export default class MainView extends React.Component {
       me.start();
     });
   }
+
   componentWillUnmount() {
     this.app.stop();
   }
+
   start() {
-    console.log(this.frameId);
     if (!this.frameId) {
-      this.frameId = requestAnimationFrame(this.updateCircle);
+      this.frameId = requestAnimationFrame(this.update);
     }
   }
+
   stop() {
     cancelAnimationFrame(this.frameId);
   }
-  updateCircle() {
+
+  //Update all the elements in the canvas
+  update() {
     const center = this.centerContainer.children.find(el => {
       return el.name === "centerObj";
     });
@@ -160,7 +160,6 @@ export default class MainView extends React.Component {
       center.x = 300;
       objectOne.x =
         center.x - (this.props.objectTwoMass / this.state.totalMass) * 200;
-
       objectTwo.x =
         (this.props.objectOneMass / this.state.totalMass) * 200 + center.x;
     } else {
@@ -206,8 +205,15 @@ export default class MainView extends React.Component {
       radiusContainerTwo.x = (objectTwo.x + center.x) / 2 - 20;
       radiusValueTwo.text = this.state.objectTwoRadius;
     }
+    if (this.state.separation != this.props.separation) {
+      this.gridContainer.removeChildren();
+      this.setState({
+        separation: this.props.separation
+      });
+      this.drawGrid(this.gridContainer, this.state.separation);
+    }
 
-    this.frameId = requestAnimationFrame(this.updateCircle);
+    this.frameId = requestAnimationFrame(this.update);
   }
 
   drawObject(circleResource, textResource, objectIndex) {
@@ -245,10 +251,55 @@ export default class MainView extends React.Component {
     return objectContainer;
   }
 
-  drawGrid() {
-    //Reserved to draw grid
-    var renderer = PIXI.autoDetectRenderer(600, 400);
-    console.log("draw grid");
+  drawGridContainer() {
+    const graphContainer = new PIXI.Container();
+
+    this.app.stage.addChild(graphContainer);
+    return graphContainer;
+  }
+
+  drawGrid(container, separation) {
+    separation = 200 / separation;
+    let grid = new PIXI.Graphics();
+    container.addChild(grid);
+    grid.position.set(0, 0);
+    var i = 0;
+
+    for (
+      i = this.app.screen.width / 2;
+      i < this.app.screen.width;
+      i = i + separation
+    ) {
+      grid
+        .lineStyle(0.2, 0x000000)
+        .moveTo(i, 0)
+        .lineTo(i, this.app.screen.height);
+    }
+
+    for (i = this.app.screen.width / 2; i > 0; i = i - separation) {
+      grid
+        .lineStyle(0.2, 0x000000)
+        .moveTo(i, 0)
+        .lineTo(i, this.app.screen.height);
+    }
+
+    for (
+      i = this.app.screen.height / 2;
+      i < this.app.screen.height;
+      i = i + separation
+    ) {
+      grid
+        .lineStyle(0.2, 0x000000)
+        .moveTo(0, i)
+        .lineTo(this.app.screen.width, i);
+    }
+
+    for (i = this.app.screen.height / 2; i > 0; i = i - separation) {
+      grid
+        .lineStyle(0.2, 0x000000)
+        .moveTo(0, i)
+        .lineTo(this.app.screen.width, i);
+    }
   }
 
   drawCenter(centerResource) {
@@ -258,8 +309,8 @@ export default class MainView extends React.Component {
     center.width = 10;
     center.height = 10;
     center.anchor.set(0.5);
-    center.x = this.state.canvasWidth / 2;
-    center.y = this.state.canvasHeight / 2;
+    center.x = this.app.screen.width / 2;
+    center.y = this.app.screen.height / 2;
     centerContainer.addChild(center);
     this.app.stage.addChild(centerContainer);
 
@@ -273,7 +324,7 @@ export default class MainView extends React.Component {
     line.lineWidth = 0.8;
     line.name = "lineObj";
     this.setState({
-      objectY: object.y + object.height * 1.25 + 0.3
+      objectY: object.y + object.height * 1.333
     });
     line.moveTo(object.x, this.state.objectY);
     line.lineTo(center.x, this.state.objectY);

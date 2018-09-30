@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import MainView from "./MainView";
+//RangeStepInput and utils file are taken and modified from https://github.com/ccnmtl/astro-interactives
 import RangeStepInput from "./RangeStepInput";
 import { degToRad, forceNumber } from "./utils";
 
@@ -11,7 +12,7 @@ class CenterOfMassSim extends React.Component {
       isCmFixed: false,
       objectMassOne: 1,
       objectMassTwo: 1,
-      separation: 1
+      separation: 10
     };
     this.state = this.initialState;
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -162,21 +163,52 @@ class CenterOfMassSim extends React.Component {
       </React.Fragment>
     );
   }
+
   onObjectMassOneChange(e) {
+    var value = forceNumber(e.target.value);
+    if (value > 10) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 10;
+    }
+    if (value < 1) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 1;
+    }
     this.setState({
-      objectMassOne: forceNumber(e.target.value)
+      objectMassOne: value
     });
   }
+
   onObjectMassTwoChange(e) {
+    var value = forceNumber(e.target.value);
+    if (value > 10) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 10;
+    }
+    if (value < 1) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 1;
+    }
     this.setState({
-      objectMassTwo: forceNumber(e.target.value)
+      objectMassTwo: value
     });
   }
+
   onSeparationChange(e) {
+    var value = forceNumber(e.target.value);
+    if (value > 20) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 20;
+    }
+    if (value < 1) {
+      alert("Mass value has to be in between 1 to 10.");
+      value = 1;
+    }
     this.setState({
-      separation: forceNumber(e.target.value)
+      separation: value
     });
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -185,6 +217,7 @@ class CenterOfMassSim extends React.Component {
       [name]: value
     });
   }
+
   onResetClick(e) {
     e.preventDefault();
     this.setState(this.initialState);
