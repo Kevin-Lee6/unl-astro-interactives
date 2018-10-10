@@ -1,0 +1,56 @@
+{
+  "name": "planet-formation-temperatures",
+  "version": "1.0.0",
+  "description": "Center of Mass Simulator",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "jest",
+    "serve": "webpack-serve --no-hot-client --no-hmr --no-reload ./webpack.config.js",
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "eslint": "eslint src/*.js src/*.jsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccnmtl/astro-interactives.git"
+  },
+  "keywords": [
+    "astronomy"
+  ],
+  "author": "Jia Yeh Beh",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/ccnmtl/astro-interactives/issues"
+  },
+  "homepage": "https://github.com/ccnmtl/astro-interactives#readme",
+  "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "pixi.js": "^4.8.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "three": "^0.96.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^23.4.2",
+    "babel-loader": "^8.0.0",
+    "eslint": "^5.1.0",
+    "eslint-plugin-react": "~7.10.0",
+    "jest": "^23.5.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-serve": "^2.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
+  }
+}
