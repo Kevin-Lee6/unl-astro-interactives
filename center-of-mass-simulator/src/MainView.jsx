@@ -61,6 +61,7 @@ export default class MainView extends React.Component {
       .add("radiusTwoText", "img/r2.svg");
 
     const me = this;
+
     this.app.loader.load((loader, resources) => {
       me.resources = resources;
       me.gridContainer = me.drawGridContainer();
