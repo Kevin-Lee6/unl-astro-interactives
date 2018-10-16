@@ -1,0 +1,54 @@
+{
+  "name": "synodic-period-calculator",
+  "version": "1.0.0",
+  "description": "Synodic Period Calculator",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "serve": "webpack-serve --no-hot-client --no-hmr --no-reload ./webpack.config.js",
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "eslint": "eslint src/*.jsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jybeh/unl-astro-interactives.git"
+  },
+  "keywords": [
+    "astronomy"
+  ],
+  "author": "Jia Yeh Beh",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/jybeh/unl-astro-interactives/issues"
+  },
+  "homepage": "https://github.com/jybeh/unl-astro-interactives#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "pixi.js": "~4.8.2",
+    "react": "~16.5.0",
+    "react-dom": "~16.5.0",
+    "solar-calculator": "^0.3.0",
+    "three": "^0.97.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.0",
+    "babel-loader": "^8.0.0",
+    "eslint": "^5.1.0",
+    "eslint-plugin-react": "~7.10.0",
+    "jest": "^23.4.1",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-serve": "^2.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
+  }
+}
