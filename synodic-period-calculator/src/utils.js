@@ -1,16 +1,17 @@
 /*
- * Force a value into a number.
- */
-const forceNumber = function(n) {
-  n = Number(n);
-  if (isNaN(n) || typeof n === "undefined") {
-    n = 0;
+This function check if the value is a positive demical. Return true if it is, else return false.
+*/
+const validate = function(n) {
+  var numString = n.toString();
+  var pattern = /^[0-9]+(\.[0-9]{1,2})?$/;
+  if (numString.match(pattern) == null) {
+    return false;
   }
-  return n;
+  return true;
 };
 
 const roundToTwoPlace = function(n) {
   return Math.round(n * 100) / 100;
 };
 
-export { forceNumber, roundToTwoPlace };
+export { validate, roundToTwoPlace };

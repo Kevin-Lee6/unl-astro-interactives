@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import PlanetSetting from "./PlanetSetting";
 import UnitSetting from "./UnitSetting";
 import Formula from "./Formula";
-import { forceNumber, roundToTwoPlace } from "./utils";
+import { roundToTwoPlace, validate } from "./utils";
 
 class SynodicPeriodCalculator extends React.Component {
   constructor(props) {
@@ -110,14 +110,7 @@ class SynodicPeriodCalculator extends React.Component {
               name="result"
               disabled={this.state.isResultDisable}
               onChange={this.handleFormulaInputChange.bind(this)}
-              value={
-                this.state.result * this.state.unit == "0"
-                  ? ""
-                  : !isFinite(this.state.result * this.state.unit) ||
-                    this.state.result * this.state.unit < 0
-                    ? "Ouch!"
-                    : roundToTwoPlace(this.state.result * this.state.unit)
-              }
+              value={this.state.result}
             />
           </div>
           <div className="col-lg-1">
@@ -131,14 +124,7 @@ class SynodicPeriodCalculator extends React.Component {
               type="text"
               disabled={this.state.isValueOneDisable}
               onChange={this.handleFormulaInputChange.bind(this)}
-              value={
-                this.state.valueOne * this.state.unit == "0"
-                  ? ""
-                  : !isFinite(this.state.valueOne * this.state.unit) ||
-                    this.state.valueOne * this.state.unit < 0
-                    ? "Ouch!"
-                    : roundToTwoPlace(this.state.valueOne * this.state.unit)
-              }
+              value={this.state.valueOne}
             />
           </div>
           <div className="col-lg-1">
@@ -152,14 +138,7 @@ class SynodicPeriodCalculator extends React.Component {
               type="text"
               disabled={this.state.isValueTwoDisable}
               onChange={this.handleFormulaInputChange.bind(this)}
-              value={
-                this.state.valueTwo * this.state.unit == "0"
-                  ? ""
-                  : !isFinite(this.state.valueTwo * this.state.unit) ||
-                    this.state.valueTwo * this.state.unit < 0
-                    ? "Ouch!"
-                    : roundToTwoPlace(this.state.valueTwo * this.state.unit)
-              }
+              value={this.state.valueTwo}
             />
           </div>
         </div>
@@ -186,7 +165,7 @@ class SynodicPeriodCalculator extends React.Component {
       if (this.state.isSuperior === false) {
         this.setState({
           formulaImgSource: "./img/superior.png",
-          valueOne: 1,
+          valueOne: 1 * this.state.unit,
           valueTwo: "",
           result: "",
           isValueOneDisable: true,
@@ -197,7 +176,7 @@ class SynodicPeriodCalculator extends React.Component {
         this.setState({
           formulaImgSource: "./img/inferior.png",
           valueOne: "",
-          valueTwo: 1,
+          valueTwo: 1 * this.state.unit,
           result: "",
           isValueOneDisable: false,
           isValueTwoDisable: true,
@@ -209,8 +188,8 @@ class SynodicPeriodCalculator extends React.Component {
     if (name == "isYears") {
       if (this.state.isYears === true) {
         this.setState({
-          valueOne: this.state.isValueOneDisable ? 1 : "",
-          valueTwo: this.state.isValueTwoDisable ? 1 : "",
+          valueOne: this.state.isValueOneDisable ? 1 * 365.25 : "",
+          valueTwo: this.state.isValueTwoDisable ? 1 * 365.25 : "",
           result: "",
           unit: 365.25
         });
@@ -228,31 +207,47 @@ class SynodicPeriodCalculator extends React.Component {
   handleFormulaInputChange(event) {
     const target = event.target;
     const name = target.name;
-    let value = forceNumber(target.value) / this.state.unit;
-    console.log(value);
+    let value = target.value;
+    var result;
     this.setState({
       [name]: value
     });
-    if (name == "result") {
-      if (this.state.isSuperior) {
+    if (value.length == 0) {
+      this.setState({
+        valueOne: this.state.isValueOneDisable ? 1 * this.state.unit : "",
+        valueTwo: this.state.isValueTwoDisable ? 1 * this.state.unit : "",
+        result: ""
+      });
+    }
+    if (validate(value)) {
+      this.setState({
+        [name]: value
+      });
+      if (name == "result") {
+        if (this.state.isSuperior) {
+          result = roundToTwoPlace(1 / (1 / this.state.valueOne - 1 / value));
+          this.setState({
+            valueTwo: isFinite(result) && result > 0 ? result : "Ouch!"
+          });
+        } else if (!this.state.isSuperior) {
+          result = roundToTwoPlace(1 / (1 / value + 1 / this.state.valueTwo));
+          this.setState({
+            valueOne: isFinite(result) && result > 0 ? result : "Ouch!"
+          });
+        }
+      } else if (name == "valueOne") {
+        result = roundToTwoPlace(1 / (1 / value - 1 / this.state.valueTwo));
         this.setState({
-          valueTwo: roundToTwoPlace(1 / (1 - 1 / value))
+          result: isFinite(result) && result > 0 ? result : "Ouch!"
         });
-      } else if (!this.state.isSuperior) {
+      } else if (name == "valueTwo") {
+        result = roundToTwoPlace(1 / (1 / this.state.valueOne - 1 / value));
         this.setState({
-          valueOne: roundToTwoPlace(1 / (1 / value + 1))
+          result: isFinite(result) && result > 0 ? result : "Ouch!"
         });
+      } else {
+        alert("Something went wrong.");
       }
-    } else if (name == "valueOne") {
-      this.setState({
-        result: roundToTwoPlace(1 / (1 / value - 1))
-      });
-    } else if (name == "valueTwo") {
-      this.setState({
-        result: roundToTwoPlace(1 / (1 - 1 / value))
-      });
-    } else {
-      alert("Something went wrong.");
     }
   }
 }
