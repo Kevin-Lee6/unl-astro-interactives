@@ -40,10 +40,6 @@ export default class PlanetSetting extends React.Component {
 }
 
 PlanetSetting.propTypes = {
-  //   showDeclinationCircle: PropTypes.bool.isRequired,
-  //   showEcliptic: PropTypes.bool.isRequired,
-  //   showMonthLabels: PropTypes.bool.isRequired,
-  //   showUnderside: PropTypes.bool.isRequired,
-  //   showStickfigure: PropTypes.bool.isRequired,
-  //   onInputChange: PropTypes.func.isRequired
+  isSuperior: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 };

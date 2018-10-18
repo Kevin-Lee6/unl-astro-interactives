@@ -40,10 +40,6 @@ export default class UnitSetting extends React.Component {
 }
 
 UnitSetting.propTypes = {
-  //   showDeclinationCircle: PropTypes.bool.isRequired,
-  //   showEcliptic: PropTypes.bool.isRequired,
-  //   showMonthLabels: PropTypes.bool.isRequired,
-  //   showUnderside: PropTypes.bool.isRequired,
-  //   showStickfigure: PropTypes.bool.isRequired,
-  //   onInputChange: PropTypes.func.isRequired
+  isYears: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 };
