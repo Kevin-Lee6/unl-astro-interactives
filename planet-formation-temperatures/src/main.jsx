@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import MainView from "./MainView";
+import MaterialState from "./MaterialState";
+//import StateOfMaterial from "./StateOfMaterial";
 //RangeStepInput and utils file are taken and modified from https://github.com/ccnmtl/astro-interactives
 import RangeStepInput from "./RangeStepInput";
 import { degToRad, forceNumber } from "./utils";
@@ -57,10 +59,13 @@ class PlanetFormationTempPlot extends React.Component {
             <div className="col-lg-2" />
             <div className="col-lg-8 text-center">
               <div>
-                <MainView></MainView>
+                <MainView
+                  temperature={this.state.temperature} />
               </div>
             </div>
-            <div className="col-lg-2" />
+            <div className="col-lg-2">
+              <MaterialState />
+            </div>
           </div>
           <div className="row mt-2">
             <div className="col-lg-1" />
@@ -78,10 +83,10 @@ class PlanetFormationTempPlot extends React.Component {
               <RangeStepInput
                   name="temperature"
                   className="custom-range vcenter"
-                  value={this.state.objectMassOne}
+                  value={this.state.temperature}
                   onChange={this.onTemperature.bind(this)}
                   step={0.1}
-                  min={32}
+                  min={35}
                   max={1520}
               />
             </div>
@@ -127,54 +132,8 @@ class PlanetFormationTempPlot extends React.Component {
     });
   }
 
-//   onObjectMassOneChange(e) {
-//     var value = forceNumber(e.target.value);
-//     if (value > 10) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 10;
-//     }
-//     if (value < 1) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 1;
-//     }
-//     this.setState({
-//       objectMassOne: value
-//     });
-//   }
-
-//   onObjectMassTwoChange(e) {
-//     var value = forceNumber(e.target.value);
-//     if (value > 10) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 10;
-//     }
-//     if (value < 1) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 1;
-//     }
-//     this.setState({
-//       objectMassTwo: value
-//     });
-//   }
-
-//   onSeparationChange(e) {
-//     var value = forceNumber(e.target.value);
-//     if (value > 20) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 20;
-//     }
-//     if (value < 1) {
-//       alert("Mass value has to be in between 1 to 10.");
-//       value = 1;
-//     }
-//     this.setState({
-//       separation: value
-//     });
-//   }
-
-   handleInputChange(event) {
+  handleInputChange(event) {
      const target = event.target;
-     const value = target.type === "checkbox" ? target.checked : target.value;
      const name = target.name;
      this.setState({
        [name]: value
