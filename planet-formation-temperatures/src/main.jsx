@@ -57,14 +57,15 @@ class PlanetFormationTempPlot extends React.Component {
         <div className="form-group">
           <div className="row mt-2">
             <div className="col-lg-2" />
-            <div className="col-lg-8 text-center">
+            <div className="col-lg-6 text-center">
               <div>
                 <MainView
                   temperature={this.state.temperature} />
               </div>
             </div>
             <div className="col-lg-2">
-              <MaterialState />
+              <MaterialState
+                temperature={this.state.temperature} />
             </div>
           </div>
           <div className="row mt-2">
