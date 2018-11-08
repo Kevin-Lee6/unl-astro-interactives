@@ -86,7 +86,7 @@ class PlanetFormationTempPlot extends React.Component {
                   className="custom-range vcenter"
                   value={this.state.temperature}
                   onChange={this.onTemperature.bind(this)}
-                  step={0.1}
+                  step={1.0}
                   min={35}
                   max={1520}
               />
@@ -128,6 +128,17 @@ class PlanetFormationTempPlot extends React.Component {
 
   onTemperature(e){
     var value = forceNumber(e.target.value);
+    if ( value > 1521){
+      if(e.key == 'Enter'){
+       console.log('alert');
+      }
+      //value = 1520;
+    }
+    if ( value < 34){
+      if (e.key == 'Enter')
+      console.log('alert');
+      //value = 35;
+    }
     this.setState({
       temperature: value
     });

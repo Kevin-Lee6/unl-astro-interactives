@@ -135,7 +135,8 @@ export default class MainView extends React.Component {
         planets.name = "planetsObj";
         planets.width = 320;
         planets.height = 300;
-        planets.x = this.app.screen.width / 4 - 100;
+        planets.rotation = 6.3;
+        planets.x = this.app.screen.width / 3.9 - 100;
         planets.y = this.app.screen.height / 5;
 
         planetContainer.addChild(planets);

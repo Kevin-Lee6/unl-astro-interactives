@@ -38,12 +38,6 @@ export default class MaterialState extends React.Component {
 
       this.el.appendChild(this.app.view);
 
-
-      // Add all the images to loader
-      // this.app.loader
-      //     .add("stateOfMaterial", "img/rightBar.png")
-
-
       const me = this;
       this.app.loader.load((loader, resources) => {
           me.resources = resources;
@@ -55,9 +49,6 @@ export default class MaterialState extends React.Component {
 
           me.start();
       });
-
-      //this.blueRectangle.y = -30;
-
 
 
     }
@@ -72,12 +63,6 @@ export default class MaterialState extends React.Component {
     drawWhiteRectangle() {
         const objectContainer = new PIXI.Container();
         objectContainer.interactive = true;
-
-        // let rectangle = new PIXI.Graphics();
-        // rectangle.beginFill(0xf2f2f2);
-        // rectangle.lineStyle(5, 0xf2f2f2);  //(thickness, color)
-        // rectangle.drawRect(10, 0, 300, 500);
-        // objectContainer.addChild(rectangle);
 
         const argon = new PIXI.Text("Argon - Neon (65 K)", {
           fontFamily: "Arial",
@@ -227,7 +212,7 @@ export default class MaterialState extends React.Component {
           const objectContainer = new PIXI.Container();
           objectContainer.interactive = true;
 
-          let line = new PIXI.Graphics();
+          const line = new PIXI.Graphics();
           line.lineStyle(3,0xff3300,1);
           line.position.x = 60;//300;
           line.position.y = 0;//500;
@@ -236,6 +221,18 @@ export default class MaterialState extends React.Component {
           line.moveTo(0,0);
           line.lineTo(0, 190);
           objectContainer.addChild(line);
+
+          const solid = new PIXI.Text('Solid', {fontFamily : 'Arial', fontSize: 17, fill : 0x009900, align : 'center'});
+          solid.y = -10;
+          solid.x = 10;
+          solid.rotation = 4.7 ;
+          objectContainer.addChild(solid);
+          const gas = new PIXI.Text('Gas', {fontFamily : 'Arial', fontSize: 17, fill : 0x0073e6, align : 'center'});
+          gas.y = 42;
+          gas.x = 10;
+          gas.rotation = 4.7;
+          objectContainer.addChild(gas);
+
 
           this.app.stage.addChild(objectContainer);
           return objectContainer;
@@ -255,9 +252,6 @@ export default class MaterialState extends React.Component {
         const redLine = this.redLineContainer;
         const blueRectangle = this.blueRectangleContainer;
         const initialTemperature = 600;
-        //blueRectangle.y = 10;
-        // redLine.y = 330;
-        // 10 < blueRectangle.y < 495
 
         if( initialTemperature != this.props.temperature) {
           const dif= this.props.temperature - initialTemperature
