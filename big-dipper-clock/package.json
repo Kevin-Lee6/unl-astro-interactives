@@ -1,0 +1,56 @@
+{
+  "name": "big-dipper-clock",
+  "version": "1.0.0",
+  "description": "Big Dipper Clock Simulator",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "serve": "webpack-dev-server",
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "eslint": "eslint src/*.jsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jybeh/unl-astro-interactives"
+  },
+  "keywords": [
+    "astronomy"
+  ],
+  "author": "Jia Yeh Beh",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/jybeh/unl-astro-interactives/issues"
+  },
+  "homepage": "https://github.com/jybeh/unl-astro-interactives#readme",
+  "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "pixi.js": "~4.8.2",
+    "react": "~16.5.0",
+    "react-dom": "~16.5.0",
+    "solar-calculator": "^0.3.0",
+    "three": "^0.97.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.0",
+    "eslint": "^5.1.0",
+    "eslint-plugin-react": "~7.10.0",
+    "jest": "^23.5.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.9"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
+  }
+}
